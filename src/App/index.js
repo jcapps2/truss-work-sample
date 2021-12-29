@@ -2,7 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import Table from "../components/Table";
 import Loading from "../components/Loading";
 import { tableColumns } from "./column";
-import "../App.css";
+import {
+  MainContainer,
+  Styles,
+  TableContainer,
+  ButtonContainer,
+  Button
+} from "./styles";
 
 const fetchData = async url => {
   const res = await fetch(url);
@@ -18,7 +24,6 @@ function App() {
 
   useEffect(() => {
     fetchData(currentPage).then(res => {
-      console.log("RESOLVED: ", res);
       setState(res);
     });
   }, [currentPage]);
@@ -26,27 +31,33 @@ function App() {
   const columns = useMemo(tableColumns, []);
 
   return (
-    <div className="App">
+    <MainContainer>
       <h1>Truss Work Sample</h1>
-      <div className="table-container">
-        {state ? <Table columns={columns} data={state.results} /> : <Loading />}
-        <div className="button-container">
+      <TableContainer>
+        {state ? (
+          <Styles>
+            <Table columns={columns} data={state.results} />
+          </Styles>
+        ) : (
+          <Loading />
+        )}
+        <ButtonContainer>
           <div>
             {state && state.previous && (
-              <button onClick={() => setCurrentPage(state.previous)}>
+              <Button onClick={() => setCurrentPage(state.previous)}>
                 Previous
-              </button>
+              </Button>
             )}
           </div>
 
           <div>
             {state && state.next && (
-              <button onClick={() => setCurrentPage(state.next)}>Next</button>
+              <Button onClick={() => setCurrentPage(state.next)}>Next</Button>
             )}
           </div>
-        </div>
-      </div>
-    </div>
+        </ButtonContainer>
+      </TableContainer>
+    </MainContainer>
   );
 }
 
