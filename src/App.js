@@ -46,7 +46,14 @@ function App() {
     },
     {
       Header: "Population",
-      accessor: "population"
+      accessor: "population",
+      Cell: props => {
+        if (props.value === "unknown") {
+          return <span>?</span>;
+        }
+        const formattedNum = new Intl.NumberFormat("fr-FR").format(props.value);
+        return <span>{formattedNum}</span>;
+      }
     },
     {
       Header: "Surface Water",
@@ -57,7 +64,9 @@ function App() {
   return (
     <div className="App">
       <h1>Truss Work Sample</h1>
-      {state ? <Table columns={columns} data={state.results} /> : <Loading />}
+      <div className="table-container">
+        {state ? <Table columns={columns} data={state.results} /> : <Loading />}
+      </div>
     </div>
   );
 }
