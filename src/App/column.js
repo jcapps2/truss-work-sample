@@ -1,3 +1,6 @@
+// Specifying each column that will be in the table, and what
+// it's accessor is. Also, providing a function to execute on
+// each cell in the respective column.
 export const tableColumns = () => [
   {
     Header: "Name",

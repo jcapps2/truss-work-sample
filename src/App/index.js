@@ -18,6 +18,8 @@ function App() {
     "https://swapi.dev/api/planets/"
   );
 
+  // Takes the url of the next (or previous) page in the API as
+  // an argument, and fetches the data for that page.
   const fetchData = async url => {
     setErrorMessage("");
     setState(null);
@@ -31,6 +33,8 @@ function App() {
     return data;
   };
 
+  // Will run when the page first loads, and any time that the value
+  // of currentPage changes.
   useEffect(() => {
     fetchData(currentPage)
       .then(res => {
@@ -45,6 +49,7 @@ function App() {
       });
   }, [currentPage]);
 
+  // Defining columns to pass as a prop to the table component.
   const columns = useMemo(tableColumns, []);
 
   return (
