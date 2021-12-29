@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Loading from "./components/Loading";
 import "./App.css";
 
 const fetchData = async () => {
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <h1>Truss Work Sample</h1>
-      {JSON.stringify(state.results)}
+      {state ? <h2>data</h2> : <Loading />}
     </div>
   );
 }
