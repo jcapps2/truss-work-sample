@@ -34,15 +34,33 @@ function App() {
     },
     {
       Header: "Climate",
-      accessor: "climate"
+      accessor: "climate",
+      Cell: props => {
+        if (props.value === "unknown") {
+          return <span>?</span>;
+        }
+        return <span>{props.value}</span>;
+      }
     },
-    // {
-    //   Header: "Residents",
-    //   accessor: "residents"
-    // },
+    {
+      Header: "Residents",
+      accessor: "residents",
+      Cell: props => {
+        if (props.value === "unknown") {
+          return <span>?</span>;
+        }
+        return <span>{props.value.length}</span>;
+      }
+    },
     {
       Header: "Terrain",
-      accessor: "terrain"
+      accessor: "terrain",
+      Cell: props => {
+        if (props.value === "unknown") {
+          return <span>?</span>;
+        }
+        return <span>{props.value}</span>;
+      }
     },
     {
       Header: "Population",
@@ -57,7 +75,13 @@ function App() {
     },
     {
       Header: "Surface Water",
-      accessor: "surface_water"
+      accessor: "surface_water",
+      Cell: props => {
+        if (props.value === "unknown") {
+          return <span>?</span>;
+        }
+        return <span>{props.value}</span>;
+      }
     }
   ]);
 
