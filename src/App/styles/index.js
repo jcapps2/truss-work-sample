@@ -11,22 +11,9 @@ export const TableStyles = styled.div`
     border: 1px solid gray;
   }
 
-  tr {
-    :last-child {
-      td {
-        border-bottom: 0;
-      }
-    }
-  }
-
   th,
   td {
-    border-bottom: 1px solid gray;
-    border-right: 1px solid gray;
-
-    :last-child {
-      border-right: 0;
-    }
+    border: 1px solid gray;
   }
 `;
 
