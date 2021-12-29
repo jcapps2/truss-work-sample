@@ -4,28 +4,45 @@ import Loading from "../components/Loading";
 import { tableColumns } from "./column";
 import {
   MainContainer,
-  Styles,
+  TableStyles,
   TableContainer,
   ButtonContainer,
   Button
 } from "./styles";
 
-const fetchData = async url => {
-  const res = await fetch(url);
-  const data = res.json();
-  return data;
-};
-
 function App() {
   const [state, setState] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(
     "https://swapi.dev/api/planets/"
   );
 
+  const fetchData = async url => {
+    setErrorMessage("");
+    setState(null);
+    setLoading(true);
+
+    const res = await fetch(url);
+    const data = res.json();
+
+    setLoading(false);
+
+    return data;
+  };
+
   useEffect(() => {
-    fetchData(currentPage).then(res => {
-      setState(res);
-    });
+    fetchData(currentPage)
+      .then(res => {
+        if (res && res.detail === "Not found") {
+          setErrorMessage("Error! Item not found.");
+        } else {
+          setState(res);
+        }
+      })
+      .catch(() => {
+        setErrorMessage("Error!");
+      });
   }, [currentPage]);
 
   const columns = useMemo(tableColumns, []);
@@ -33,29 +50,37 @@ function App() {
   return (
     <MainContainer>
       <h1>Truss Work Sample</h1>
+
+      {loading && <Loading />}
+
       <TableContainer>
         {state ? (
-          <Styles>
-            <Table columns={columns} data={state.results} />
-          </Styles>
-        ) : (
-          <Loading />
-        )}
-        <ButtonContainer>
           <div>
-            {state && state.previous && (
-              <Button onClick={() => setCurrentPage(state.previous)}>
-                Previous
-              </Button>
-            )}
-          </div>
+            <TableStyles>
+              <Table columns={columns} data={state.results} />
+            </TableStyles>
 
-          <div>
-            {state && state.next && (
-              <Button onClick={() => setCurrentPage(state.next)}>Next</Button>
-            )}
+            <ButtonContainer>
+              <div>
+                {state && state.previous && (
+                  <Button onClick={() => setCurrentPage(state.previous)}>
+                    Previous
+                  </Button>
+                )}
+              </div>
+
+              <div>
+                {state && state.next && (
+                  <Button onClick={() => setCurrentPage(state.next)}>
+                    Next
+                  </Button>
+                )}
+              </div>
+            </ButtonContainer>
           </div>
-        </ButtonContainer>
+        ) : (
+          <h2>{errorMessage}</h2>
+        )}
       </TableContainer>
     </MainContainer>
   );

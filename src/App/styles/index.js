@@ -4,7 +4,7 @@ export const MainContainer = styled.div`
   text-align: center;
 `;
 
-export const Styles = styled.div`
+export const TableStyles = styled.div`
   padding: 1rem;
 
   table {
@@ -39,6 +39,8 @@ export const TableContainer = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Button = styled.button`
